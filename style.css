@@ -1,0 +1,15 @@
+.Canvas {
+    position: relative;
+    height: 500px;
+    background-color: antiquewhite;
+    overflow: hidden;
+}
+
+.emoji {
+    position: absolute;
+    left: 20px;
+}
+
+body {
+    background-color: aqua;
+}
