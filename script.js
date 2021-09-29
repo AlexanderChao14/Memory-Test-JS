@@ -28,13 +28,13 @@ $(document).ready(function(){
         anime({
             targets: '.emoji',  // switch to Element ID
             translateX: viewWidth,
-            duration: 1000,
+            duration: 1000,     // generate a random time sequence
             easing: 'linear',
+            // can we add a delay so they all run animate at the beginning?
         });
     }
 
     document.getElementById('resetEmojis').onclick = () => {resetEmojis()};
-
     function resetEmojis () {
         $('.emoji').css('transform', 'translateX(0px)');
     }
