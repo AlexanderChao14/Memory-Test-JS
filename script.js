@@ -8,7 +8,7 @@ $(document).ready(function(){
     main(canvas);
 
     function main (canvas) {
-        const sequence = generateSequence(20);
+        const sequence = generateSequence(10);
         for(let i = 0; i < sequence.length; i++){
             addToCanvas(sequence[i], canvas);
         }
@@ -18,7 +18,7 @@ $(document).ready(function(){
         element = makeEmojiElement(emoji);
         canvas.append(element);
         element.css('top', generateYPositionPercentage());
-
+        
     }
 
     document.getElementById('moveButton').onclick = () => {animate()};
@@ -28,7 +28,7 @@ $(document).ready(function(){
         anime({
             targets: '.emoji',  // switch to Element ID
             translateX: viewWidth,
-            duration: 1000,     // generate a random time sequence
+            duration: 1500,     // generate a random time sequence
             easing: 'linear',
             // can we add a delay so they all run animate at the beginning?
         });
