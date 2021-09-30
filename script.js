@@ -29,7 +29,26 @@ $(document).ready(function(){
         for(let i = 0; i < sequence.length; i++){
             addToCanvas(sequence[i], canvas);
         }
+        genDic(sequence);
     };
+
+    function genDic(sequence){
+        var dic = {};
+        sequence.forEach(emojiEl => {
+            
+            if(dic[emojiEl] == NaN || dic[emojiEl] == null){
+                dic[emojiEl] =1;
+            }
+            else{
+                dic[emojiEl]= dic[emojiEl]+1;
+            }
+            
+        });
+
+        console.log(dic);
+    
+
+    }
 
     function addToCanvas(emoji, canvas){
         element = makeEmojiElement(emoji);
