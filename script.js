@@ -8,10 +8,24 @@ $(document).ready(function(){
     const viewHeight = canvas[0].offsetHeight + 'px';
 
 
+    function endGameCanvas() {
+        const className = 'class=endGameCanvas';
+        const props = className;
+        const html = "<div " + props + "> </div>";
+        return $(html);
+    };
+
+    function clearCanvas() {
+        gameCanvas.remove();
+        endGameCanvas();
+    };
+
+    document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
+
     main(gameCanvas);
 
     function main (canvas) {
-        const sequence = generateSequence(10);
+        const sequence = generateSequence(5);
         for(let i = 0; i < sequence.length; i++){
             addToCanvas(sequence[i], canvas);
         }
@@ -27,7 +41,7 @@ $(document).ready(function(){
 
     function makeEmojiElement(emoji){
         const className = "class='emoji'";
-        const idNum = Math.floor(Math.random() * 100);
+        const idNum = Math.floor(Math.random() * 10000);
         const id = "id=" + idNum;
         const props = className + id;
         const html = "<h1 " + props + "> " + emoji + " </h1>";
@@ -63,11 +77,10 @@ $(document).ready(function(){
         console.log('animate');
         emojiElements.forEach(id => {
             let element = document.getElementById(id);
-            console.log(element);
             anime({
                 targets: element,  // switch to Element ID
                 translateX: viewWidth,
-                duration: 1500,     // generate a random time sequence
+                duration: Math.floor(Math.random() * (2000-1000) + 1000),     // generate a random time sequence
                 easing: 'linear',
                 delay: Math.random() * 2000,
                 // can we add a delay so they all run animate at the beginning?
