@@ -1,11 +1,14 @@
 $(document).ready(function(){
+    const gameCanvas = generateGameCanvas();
     const canvas = $(".Canvas");
+    canvas.append(gameCanvas);
     const emojis = "😀 😍 🧐 😎 🥺 🤬 🐶 🐹 🦊 🐨 🙊".split(" ");
+    let emojiElements = [];
     const viewWidth = canvas[0].offsetWidth + 'px';
     const viewHeight = canvas[0].offsetHeight + 'px';
 
 
-    main(canvas);
+    main(gameCanvas);
 
     function main (canvas) {
         const sequence = generateSequence(10);
@@ -21,23 +24,6 @@ $(document).ready(function(){
         
     }
 
-    document.getElementById('moveButton').onclick = () => {animate()};
-
-    function animate() {
-        console.log('animate');
-        anime({
-            targets: '.emoji',  // switch to Element ID
-            translateX: viewWidth,
-            duration: 1500,     // generate a random time sequence
-            easing: 'linear',
-            // can we add a delay so they all run animate at the beginning?
-        });
-    }
-
-    document.getElementById('resetEmojis').onclick = () => {resetEmojis()};
-    function resetEmojis () {
-        $('.emoji').css('transform', 'translateX(0px)');
-    }
 
     function makeEmojiElement(emoji){
         const className = "class='emoji'";
@@ -45,8 +31,17 @@ $(document).ready(function(){
         const id = "id=" + idNum;
         const props = className + id;
         const html = "<h1 " + props + "> " + emoji + " </h1>";
-        return $(html);
+        const element = $(html);
+        emojiElements.push(idNum);
+        return element;
     } 
+
+    function generateGameCanvas(){
+        const className = 'class=GameCanvas';
+        const props = className;
+        const html = "<div " + props + "> </div>";
+        return $(html);
+    }
 
     function generateYPositionPercentage(){
         return Math.floor(Math.random() * 90) + '%';
@@ -62,9 +57,22 @@ $(document).ready(function(){
         return sequence;
     }
 
+    document.getElementById('moveButton').onclick = () => {animate()};
 
+    function animate() {
+        console.log('animate');
+        emojiElements.forEach(id => {
+            let element = document.getElementById(id);
+            console.log(element);
+            anime({
+                targets: element,  // switch to Element ID
+                translateX: viewWidth,
+                duration: 1500,     // generate a random time sequence
+                easing: 'linear',
+                delay: Math.random() * 2000,
+                // can we add a delay so they all run animate at the beginning?
+            });
+        });
 
-
-
-
+    }
 })
