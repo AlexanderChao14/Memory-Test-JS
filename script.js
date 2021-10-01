@@ -7,13 +7,13 @@ $(document).ready(function(){
     const viewWidth = canvas[0].offsetWidth + 'px';
     const viewHeight = canvas[0].offsetHeight + 'px';
 
-    function clearCanvas() {
+    function loadEndScreen() {
         gameCanvas.remove();
         const endGameCanvas = createEndCanvas();
         canvas.append(endGameCanvas);
     };
 
-    document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
+    document.getElementById('loadEndScreen').onclick = () => {loadEndScreen()};
 
     main(gameCanvas);
 
@@ -123,7 +123,9 @@ $(document).ready(function(){
         });
 
         setTimeout(function(){
-            console.log("Done")
+            console.log("Loading Question")
+            loadEndScreen();
+            createEndCanvas();
         }, totalTime+250)
     }
 
