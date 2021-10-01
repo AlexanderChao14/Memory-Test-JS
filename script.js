@@ -2,16 +2,18 @@ $(document).ready(function(){
     const gameCanvas = generateGameCanvas();
     const canvas = $(".Canvas");
     canvas.append(gameCanvas);
+
     const emojis = "😀 😍 🧐 😎 🥺 🤬 🐶 🐹 🦊 🐨 🙊".split(" ");
     let emojiElements = [];
-    const viewWidth = canvas[0].offsetWidth + 'px';
+    const viewWidth = canvas[0].offsetWidth;
     const viewHeight = canvas[0].offsetHeight + 'px';
-    const sequence = generateSequence(20);
+    let sequence = [];
 
 
-    main(gameCanvas);
+    startNewRound(gameCanvas, 3);
 
-    function main (canvas) {
+    function startNewRound (canvas, limit) {
+        sequence = generateSequence(limit, 20);
         for(let i = 0; i < sequence.length; i++){
            appendEmojiToCanvas(sequence[i], canvas);
         }       
@@ -55,10 +57,11 @@ $(document).ready(function(){
     }
 
 
-    function generateSequence(size){
+    function generateSequence(limit, sequenceSize){
         let sequence = [];
-        for(let i = 0; i < size ; i++){
-            let emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        if(limit > emojis.length) limit = emojis.length;
+        for(let i = 0; i < sequenceSize; i++){
+            let emoji = emojis[Math.floor(Math.random() * limit)];
             sequence.push(emoji);
         }
         return sequence;
@@ -72,10 +75,10 @@ $(document).ready(function(){
             let element = document.getElementById(id);
             anime({
                 targets: element,  // switch to Element ID
-                translateX: viewWidth,
-                duration: Math.floor(Math.random() * (2000-1000) + 1000),     // generate a random time sequence
+                translateX: viewWidth + 100 + 'px',
+                duration: Math.floor(Math.random() * (5000-1000) + 1000),     // generate a random time sequence
                 easing: 'linear',
-                delay: Math.random() * 2000,
+                delay: Math.random() * 10000,
                 // can we add a delay so they all run animate at the beginning?
             });
         });
