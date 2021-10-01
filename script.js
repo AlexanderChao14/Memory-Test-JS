@@ -46,8 +46,20 @@ $(document).ready(function(){
         });
 
         console.log(dic);
+        genAns(dic);
     
+    }
 
+    function genAns(dict){
+        // console.log(Object.keys(dict).length);
+        const ans = Math.floor(Math.random()* Object.keys(dict).length) 
+        var emoAns= Object.keys(dict);
+        var y = emoAns[ans];
+        var amountAns = dict[y]
+        console.log(ans)
+        // console.log(Object.keys(dict))
+        console.log(emoAns[ans])
+        console.log(dict[y])
     }
 
     function addToCanvas(emoji, canvas){
@@ -105,6 +117,6 @@ $(document).ready(function(){
                 // can we add a delay so they all run animate at the beginning?
             });
         });
-
+        //Need to put an await
     }
 })
