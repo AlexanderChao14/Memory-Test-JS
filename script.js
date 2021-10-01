@@ -6,61 +6,25 @@ $(document).ready(function(){
     let emojiElements = [];
     const viewWidth = canvas[0].offsetWidth + 'px';
     const viewHeight = canvas[0].offsetHeight + 'px';
+    const sequence = generateSequence(20);
 
+
+    main(gameCanvas);
+
+    function main (canvas) {
+        for(let i = 0; i < sequence.length; i++){
+           appendEmojiToCanvas(sequence[i], canvas);
+        }       
+    };
+
+    document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
     function clearCanvas() {
         gameCanvas.remove();
         const endGameCanvas = createEndCanvas();
         canvas.append(endGameCanvas);
     };
 
-    document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
-
-    main(gameCanvas);
-
-    function main (canvas) {
-        const sequence = generateSequence(5);
-        for(let i = 0; i < sequence.length; i++){
-            addToCanvas(sequence[i], canvas);
-        }
-        console.log(genDic(sequence));
-        
-    };
-
-    function genDic(sequence){
-        var dic = {};
-        sequence.forEach(emojiEl => {
-            
-            if(dic[emojiEl] == NaN || dic[emojiEl] == null){
-                dic[emojiEl] =1;
-            }
-            else{
-                dic[emojiEl]= dic[emojiEl]+1;
-            }
-            
-        });
-
-        console.log(dic);
-
-        return genAns(dic);
-    
-    }
-
-    function genAns(dict){
-        // console.log(Object.keys(dict).length);
-        const randomAns = Math.floor(Math.random()* Object.keys(dict).length) 
-        var emoArray= Object.keys(dict);
-        var emoji = emoArray[randomAns];
-        var amountAns = dict[emoji]
-        console.log(randomAns)
-        // console.log(Object.keys(dict))
-        console.log(emoArray[randomAns])
-        console.log(dict[emoji])
-        var answerKey = {QuestionEmoji:emoji, RightAmount:amountAns}
-        
-        return answerKey
-    }
-
-    function addToCanvas(emoji, canvas){
+    function appendEmojiToCanvas(emoji, canvas){
         element = makeEmojiElement(emoji);
         canvas.append(element);
         element.css('top', generateYPositionPercentage());
@@ -126,21 +90,25 @@ $(document).ready(function(){
     };
 
     function createEndCanvas(){
+        const time = 10;
+        const question = genDic(sequence);
+        console.log('question', question);
         const className = 'class=endgameContainer';
         const props = className;
         const html = "<div " + props + "> </div>";
         const endGameCanvas = $(html);
-        appendElements(endGameCanvas, [ createTimer(), createCount(), createQuestion(), createCounter()]);
+        appendElements(endGameCanvas, [ createTimer(time), createCount(incrementCounter), createQuestion(question.QuestionEmoji), createCounter()]);
+        countDown();
         return endGameCanvas;
 
-        function createCount(){
+        function createCount(func_incrementCount){
             const className = 'class=countButton';
             const props = className;
             const html = "<div " + props + "></div>";
             const countDiv = $(html);
             const button = createCountButton();
+            button.click(() => {func_incrementCount()});
             countDiv.append(button);
-            
             return countDiv;
 
             function createCountButton(){
@@ -153,30 +121,75 @@ $(document).ready(function(){
             }
         }
 
-        function createTimer(){
-            const className = 'class=timer';
-            const props = className;
-            const innerHtml = "20s";
-            const html = "<div " + props + "> " + innerHtml + "</div>";
-            return $(html);
+        function incrementCounter(){
+            let value = parseInt($('.counter > h1').text());
+            $('.counter > h1').text(value + 1);
+            console.log(value, value == question.RightAmount ? 'correct' : 'incorrect');
+        }
+
+        function createTimer(time){
+            const className = 'class=timer ';
+            const id = 'id=timer';
+            const props = className + id;
+            const html = $("<div " + props + "></div>").append($('<h1></h1>').text(time + 1));
+            return html;
+        }
+
+        function countDown(){
+            $('.timer').ready(function (){
+                let time = parseInt($('.timer > h1').text());
+                console.log(time);
+                if(time > 0){
+                    $('.timer > h1').text(time - 1);
+                    setTimeout(countDown, 1000);
+                }
+            });
         }
     
-        function createQuestion(){
+        function createQuestion(emoji){
             const className = 'class=question';
             const props = className;
-            const innerHtml = "Count the number of times 🦊 appeared";
+            const innerHtml = "<h1>Count the number of times " + emoji + " appeared</h1>";
             const html = "<div " + props + "> " + innerHtml + "</div>";
             return $(html);
         }
 
         function createCounter(){
-            const className = 'class=counter';
-            const props = className;
-            const innerHtml = "0";
-            const html = "<div " + props + "> " + innerHtml + "</div>";
-            return $(html);
+            const className = 'class=counter ';
+            const id = 'id=counter';
+            const props = className + id;
+            const html = $("<div " + props + "></div>")
+                .append($("<h1></h1>")
+                        .text(0));
+            return html;
         }
     }
+
+    function genDic(sequence){
+        var dic = {};
+        sequence.forEach(emojiEl => {
+            if(dic[emojiEl] == NaN || dic[emojiEl] == null){
+                dic[emojiEl] =1;
+            }else{
+                dic[emojiEl]= dic[emojiEl]+1;
+            }
+        });
+        return genAns(dic);
+        function genAns(dict){
+            // console.log(Object.keys(dict).length);
+            const randomAns = Math.floor(Math.random()* Object.keys(dict).length) 
+            var emoArray= Object.keys(dict);
+            var emoji = emoArray[randomAns];
+            var amountAns = dict[emoji]
+            // console.log(randomAns)
+            // console.log(Object.keys(dict))
+            // console.log(emoArray[randomAns])
+            // console.log(dict[emoji])
+            var answerKey = {QuestionEmoji:emoji, RightAmount:amountAns}
+            return answerKey
+        }
+    }
+
 
 
 
