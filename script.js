@@ -10,6 +10,15 @@ $(document).ready(function(){
     let sequence = [];
 
 
+    function loadEndScreen() {
+        gameCanvas.remove();
+        const endGameCanvas = createEndCanvas();
+        canvas.append(endGameCanvas);
+    };
+
+    document.getElementById('loadEndScreen').onclick = () => {loadEndScreen()};
+
+
     startNewRound(gameCanvas, 3);
 
     function startNewRound (canvas, limit) {
@@ -71,14 +80,20 @@ $(document).ready(function(){
 
     function animate() {
         console.log('animate');
+        var totalTime=0;
         emojiElements.forEach(id => {
             let element = document.getElementById(id);
+            var randDur = Math.floor(Math.random() * (5000-1000) + 1000)
+            var randDelay = Math.random() * 10000
+            if(totalTime < (randDelay+randDur)){
+                totalTime = randDelay+randDur;
+            }
             anime({
                 targets: element,  // switch to Element ID
                 translateX: viewWidth + 100 + 'px',
-                duration: Math.floor(Math.random() * (5000-1000) + 1000),     // generate a random time sequence
+                duration: randDur,     // generate a random time sequence
                 easing: 'linear',
-                delay: Math.random() * 10000,
+                delay: randDelay,
                 // can we add a delay so they all run animate at the beginning?
                 complete: function(){
                     console.log('complete animation for: ', element);
@@ -86,6 +101,12 @@ $(document).ready(function(){
                 }
             });
         });
+
+        setTimeout(function(){
+            console.log("Loading Question")
+            loadEndScreen();
+            createEndCanvas();
+        }, totalTime+250)
     }
 
 
