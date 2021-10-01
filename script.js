@@ -7,18 +7,9 @@ $(document).ready(function(){
     const viewWidth = canvas[0].offsetWidth + 'px';
     const viewHeight = canvas[0].offsetHeight + 'px';
 
-
-    function endGameCanvas() {
-        const className = 'class=endGameCanvas';
-        const props = className;
-        const html = "<div " + props + "> </div>";
-        return $(html);
-    };
-
     function clearCanvas() {
         gameCanvas.remove();
         const endGameCanvas = createEndCanvas();
-        console.log(endGameCanvas);
         canvas.append(endGameCanvas);
     };
 
@@ -109,20 +100,20 @@ $(document).ready(function(){
         });
     }
 
+
+
+    function appendElements(canvas, elements){
+        elements.forEach(element => {
+            canvas.append(element);
+        });
+    };
+
     function createEndCanvas(){
         const className = 'class=endgameContainer';
         const props = className;
-        
         const html = "<div " + props + "> </div>";
         const endGameCanvas = $(html);
-        const timer = createTimer();
-        const countButton = createCount();
-        const question = createQuestion();
-        const counter = createCounter();
-        endGameCanvas.append(timer);
-        endGameCanvas.append(countButton);
-        endGameCanvas.append(question);
-        endGameCanvas.append(counter);
+        appendElements(endGameCanvas, [ createTimer(), createCount(), createQuestion(), createCounter()]);
         return endGameCanvas;
 
         function createCount(){
