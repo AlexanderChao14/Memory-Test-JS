@@ -16,9 +16,6 @@ $(document).ready(function(){
         canvas.append(endGameCanvas);
     };
 
-    document.getElementById('loadEndScreen').onclick = () => {loadEndScreen()};
-
-
     startNewRound(gameCanvas, 3);
 
     function startNewRound (canvas, limit) {
@@ -26,13 +23,6 @@ $(document).ready(function(){
         for(let i = 0; i < sequence.length; i++){
            appendEmojiToCanvas(sequence[i], canvas);
         }       
-    };
-
-    document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
-    function clearCanvas() {
-        gameCanvas.remove();
-        const endGameCanvas = createEndCanvas();
-        canvas.append(endGameCanvas);
     };
 
     function appendEmojiToCanvas(emoji, canvas){
@@ -105,7 +95,6 @@ $(document).ready(function(){
         setTimeout(function(){
             console.log("Loading Question")
             loadEndScreen();
-            createEndCanvas();
         }, totalTime+250)
     }
 
