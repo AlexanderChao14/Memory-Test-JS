@@ -7,17 +7,10 @@ $(document).ready(function(){
     const viewWidth = canvas[0].offsetWidth + 'px';
     const viewHeight = canvas[0].offsetHeight + 'px';
 
-
-    function endGameCanvas() {
-        const className = 'class=endGameCanvas';
-        const props = className;
-        const html = "<div " + props + "> </div>";
-        return $(html);
-    };
-
     function clearCanvas() {
         gameCanvas.remove();
-        endGameCanvas();
+        const endGameCanvas = createEndCanvas();
+        canvas.append(endGameCanvas);
     };
 
     document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
@@ -117,6 +110,72 @@ $(document).ready(function(){
                 // can we add a delay so they all run animate at the beginning?
             });
         });
-        //Need to put an await
     }
+
+
+
+    function appendElements(canvas, elements){
+        elements.forEach(element => {
+            canvas.append(element);
+        });
+    };
+
+    function createEndCanvas(){
+        const className = 'class=endgameContainer';
+        const props = className;
+        const html = "<div " + props + "> </div>";
+        const endGameCanvas = $(html);
+        appendElements(endGameCanvas, [ createTimer(), createCount(), createQuestion(), createCounter()]);
+        return endGameCanvas;
+
+        function createCount(){
+            const className = 'class=countButton';
+            const props = className;
+            const html = "<div " + props + "></div>";
+            const countDiv = $(html);
+            const button = createCountButton();
+            countDiv.append(button);
+            
+            return countDiv;
+
+            function createCountButton(){
+                const className = 'class=countButton';
+                const id = "id=countButton";
+                const props = className + id;
+                const innerHtml = "Count Emoji";
+                const html = "<div " + props + "> " + innerHtml + "</div>";
+                return $(html);
+            }
+        }
+
+        function createTimer(){
+            const className = 'class=timer';
+            const props = className;
+            const innerHtml = "20s";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+    
+        function createQuestion(){
+            const className = 'class=question';
+            const props = className;
+            const innerHtml = "Count the number of times 🦊 appeared";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+
+        function createCounter(){
+            const className = 'class=counter';
+            const props = className;
+            const innerHtml = "0";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+    }
+
+
+
+
+
+
 })
