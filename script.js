@@ -104,17 +104,27 @@ $(document).ready(function(){
 
     function animate() {
         console.log('animate');
+        var totalTime=0;
         emojiElements.forEach(id => {
             let element = document.getElementById(id);
+            var randDur = Math.floor(Math.random() * (2000-1000) + 1000)
+            var randDelay = Math.random() * 2000
+            if(totalTime < (randDelay+randDur)){
+                totalTime = randDelay+randDur;
+            }
             anime({
                 targets: element,  // switch to Element ID
                 translateX: viewWidth,
-                duration: Math.floor(Math.random() * (2000-1000) + 1000),     // generate a random time sequence
+                duration: randDur,     // generate a random time sequence
                 easing: 'linear',
-                delay: Math.random() * 2000,
+                delay: randDelay,
                 // can we add a delay so they all run animate at the beginning?
             });
         });
+
+        setTimeout(function(){
+            console.log("Done")
+        }, totalTime+250)
     }
 
 
