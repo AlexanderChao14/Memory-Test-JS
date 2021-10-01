@@ -22,7 +22,8 @@ $(document).ready(function(){
         for(let i = 0; i < sequence.length; i++){
             addToCanvas(sequence[i], canvas);
         }
-        genDic(sequence);
+        console.log(genDic(sequence));
+        
     };
 
     function genDic(sequence){
@@ -39,20 +40,24 @@ $(document).ready(function(){
         });
 
         console.log(dic);
-        genAns(dic);
+
+        return genAns(dic);
     
     }
 
     function genAns(dict){
         // console.log(Object.keys(dict).length);
-        const ans = Math.floor(Math.random()* Object.keys(dict).length) 
-        var emoAns= Object.keys(dict);
-        var y = emoAns[ans];
-        var amountAns = dict[y]
-        console.log(ans)
+        const randomAns = Math.floor(Math.random()* Object.keys(dict).length) 
+        var emoArray= Object.keys(dict);
+        var emoji = emoArray[randomAns];
+        var amountAns = dict[emoji]
+        console.log(randomAns)
         // console.log(Object.keys(dict))
-        console.log(emoAns[ans])
-        console.log(dict[y])
+        console.log(emoArray[randomAns])
+        console.log(dict[emoji])
+        var answerKey = {QuestionEmoji:emoji, RightAmount:amountAns}
+        
+        return answerKey
     }
 
     function addToCanvas(emoji, canvas){
