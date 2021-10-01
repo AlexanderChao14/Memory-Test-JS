@@ -115,7 +115,10 @@ $(document).ready(function(){
         const html = "<div " + props + "> </div>";
         const endGameCanvas = $(html);
         appendElements(endGameCanvas, [ createTimer(time), createCount(incrementCounter), createQuestion(question.QuestionEmoji), createCounter()]);
-        countDown();
+        countDown(() => {
+            console.log('countdown complete');
+            //endGameCanvas.remove();
+        });
         return endGameCanvas;
 
         function createCount(func_incrementCount){
@@ -152,13 +155,18 @@ $(document).ready(function(){
             return html;
         }
 
-        function countDown(){
+        function countDown(callback){
             $('.timer').ready(function (){
-                let time = parseInt($('.timer > h1').text());
-                console.log(time);
-                if(time > 0){
-                    $('.timer > h1').text(time - 1);
-                    setTimeout(countDown, 1000);
+                decrementTimer();
+                function decrementTimer(){
+                    let time = parseInt($('.timer > h1').text());
+                    console.log(time);
+                    if(time > 0){
+                        $('.timer > h1').text(time - 1);
+                        setTimeout(decrementTimer, 1000);
+                    }else{
+                        callback();
+                    }
                 }
             });
         }
