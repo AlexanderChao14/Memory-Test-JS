@@ -80,6 +80,10 @@ $(document).ready(function(){
                 easing: 'linear',
                 delay: Math.random() * 10000,
                 // can we add a delay so they all run animate at the beginning?
+                complete: function(){
+                    console.log('complete animation for: ', element);
+                    element.remove();
+                }
             });
         });
     }
