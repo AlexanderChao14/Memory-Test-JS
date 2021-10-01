@@ -17,7 +17,9 @@ $(document).ready(function(){
 
     function clearCanvas() {
         gameCanvas.remove();
-        endGameCanvas();
+        const endGameCanvas = createEndCanvas();
+        console.log(endGameCanvas);
+        canvas.append(endGameCanvas);
     };
 
     document.getElementById('clearCanvas').onclick = () => {clearCanvas()};
@@ -105,6 +107,72 @@ $(document).ready(function(){
                 // can we add a delay so they all run animate at the beginning?
             });
         });
-
     }
+
+    function createEndCanvas(){
+        const className = 'class=endgameContainer';
+        const props = className;
+        
+        const html = "<div " + props + "> </div>";
+        const endGameCanvas = $(html);
+        const timer = createTimer();
+        const countButton = createCount();
+        const question = createQuestion();
+        const counter = createCounter();
+        endGameCanvas.append(timer);
+        endGameCanvas.append(countButton);
+        endGameCanvas.append(question);
+        endGameCanvas.append(counter);
+        return endGameCanvas;
+
+        function createCount(){
+            const className = 'class=countButton';
+            const props = className;
+            const html = "<div " + props + "></div>";
+            const countDiv = $(html);
+            const button = createCountButton();
+            countDiv.append(button);
+            
+            return countDiv;
+
+            function createCountButton(){
+                const className = 'class=countButton';
+                const id = "id=countButton";
+                const props = className + id;
+                const innerHtml = "Count Emoji";
+                const html = "<div " + props + "> " + innerHtml + "</div>";
+                return $(html);
+            }
+        }
+
+        function createTimer(){
+            const className = 'class=timer';
+            const props = className;
+            const innerHtml = "20s";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+    
+        function createQuestion(){
+            const className = 'class=question';
+            const props = className;
+            const innerHtml = "Count the number of times 🦊 appeared";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+
+        function createCounter(){
+            const className = 'class=counter';
+            const props = className;
+            const innerHtml = "0";
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
+        }
+    }
+
+
+
+
+
+
 })
