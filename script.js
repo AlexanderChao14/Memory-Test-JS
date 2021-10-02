@@ -38,6 +38,8 @@ $(document).ready(function(){
         }else{
             round = 2;
             sequenceSize = 5;
+            minDuration = 5000;
+            maxDuration = 10000;
         }
         console.log("round: ", round);
     }
