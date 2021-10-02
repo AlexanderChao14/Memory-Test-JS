@@ -1,7 +1,7 @@
 $(document).ready(function(){
     const gameCanvas = generateGameCanvas();
     const canvas = $(".Canvas");
-    canvas.append(gameCanvas);
+    let round = 2;
 
     const emojis = "😀 😍 🧐 😎 🥺 🤬 🐶 🐹 🦊 🐨 🙊".split(" ");
     let emojiElements = [];
@@ -9,20 +9,31 @@ $(document).ready(function(){
     const viewHeight = canvas[0].offsetHeight + 'px';
     let sequence = [];
 
+    startNewRound(round);
+
+    function startNewRound (limit) {
+        canvas.append(gameCanvas);
+        sequence = generateSequence(limit, 20);
+        console.log(sequence);
+        for(let i = 0; i < sequence.length; i++){
+           appendEmojiToCanvas(sequence[i], canvas);
+        }       
+    };
+
+    function setRound(didWin){
+        if(didWin){
+            round = round + 1;
+            console.log('won');
+        }else{
+            round = 2;
+        }
+        console.log("round: ", round);
+    }
 
     function loadEndScreen() {
         gameCanvas.remove();
         const endGameCanvas = createEndCanvas();
         canvas.append(endGameCanvas);
-    };
-
-    startNewRound(gameCanvas, 3);
-
-    function startNewRound (canvas, limit) {
-        sequence = generateSequence(limit, 20);
-        for(let i = 0; i < sequence.length; i++){
-           appendEmojiToCanvas(sequence[i], canvas);
-        }       
     };
 
     function appendEmojiToCanvas(emoji, canvas){
@@ -93,7 +104,8 @@ $(document).ready(function(){
         });
 
         setTimeout(function(){
-            console.log("Loading Question")
+            console.log("Loading Question");
+            emojiElements = [];
             loadEndScreen();
         }, totalTime+250)
     }
@@ -116,8 +128,7 @@ $(document).ready(function(){
         const endGameCanvas = $(html);
         appendElements(endGameCanvas, [ createTimer(time), createCount(incrementCounter), createQuestion(question.QuestionEmoji), createCounter()]);
         countDown(() => {
-            console.log('countdown complete');
-            //endGameCanvas.remove();
+            displayResults();
         });
         return endGameCanvas;
 
@@ -139,6 +150,23 @@ $(document).ready(function(){
                 const html = "<div " + props + "> " + innerHtml + "</div>";
                 return $(html);
             }
+        }
+
+        function displayResults(){
+            const didWin = isGuessCorrect();
+            console.log('countdown complete: ', didWin);
+            setTimeout(() => {
+                endGameCanvas.remove();
+                setRound(didWin);
+                startNewRound(round);
+            }, 3000);   
+        }
+
+        
+
+        function isGuessCorrect(){
+            let counter = parseInt($('.counter > h1').text());
+            return counter == question.RightAmount ? true : false;
         }
 
         function incrementCounter(){
