@@ -7,3 +7,6 @@ For Example, if 🐶 appeared twice, then you would click the _count emoji_ butt
 If you answered correctly, you will progress to the next round which will have more emojis flying at a faster speed.
 
 We hope you enjoy helping our friend Alex as much as we enjoyed making this for him!
+
+# Demo Video
+Link: https://www.youtube.com/watch?v=H2CArrkxUno 
