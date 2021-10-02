@@ -71,17 +71,27 @@
   height: 100%;
   text-align: center;
   font-size: 30px;
-  border: solid;
+  border: none;
+  margin-left: 25%;
+  margin-top: 5%;
+  color: antiquewhite;
 }
 .timer {
   grid-area: timer;
   margin: auto;
-  width: 50%;
-  padding: 10px;
+  margin-top: 50px;
+  /* width: 50%; */
+  padding: 5px;
   text-align: center;
+  align-items: center;
   font-weight: bold;
-  font-size: 50px;
-  border: solid;
+  font-size: 75px;
+  border: none;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  background-color: lightblue;
+  color: antiquewhite;
 }
 .countButton {
   grid-area: countButton;
@@ -90,14 +100,27 @@
 .counter {
   grid-area: counter;
   margin: auto;
-  width: 50%;
   padding: 10px;
+  margin-top: 5px;
   text-align: center;
   font-weight: bold;
-  font-size: 50px;
-  border: solid;
+  font-size: 75px;
+  border: none;
+  background-color: lightblue;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  color: antiquewhite;
 }
 
 body {
   background-color: antiquewhite;
+}
+
+h1 > div.counter{
+  color: antiquewhite;
+}
+
+h1 > div.timer{
+  color: antiquewhite;
 }
