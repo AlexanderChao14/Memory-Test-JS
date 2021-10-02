@@ -1,8 +1,8 @@
 const delay = 5000;
-const minDuraction = 5000;
-const maxDuration = 10000;
-const sequenceSize = 10;
-const endScreenTimer = 50;
+let minDuration = 5000;
+let maxDuration = 10000;
+let sequenceSize = 5;
+const endScreenTimer = 10;
 
 $(document).ready(function(){
     const gameCanvas = generateGameCanvas();
@@ -23,15 +23,21 @@ $(document).ready(function(){
         console.log(sequence);
         for(let i = 0; i < sequence.length; i++){
            appendEmojiToCanvas(sequence[i], canvas);
-        }       
+        }
+        document.getElementById('round').innerHTML="Round: " + (round-1);
+        document.getElementById('moveButton').style.display="block";       
     };
 
     function setRound(didWin){
         if(didWin){
             round = round + 1;
+            sequenceSize = sequenceSize +2;
             console.log('won');
+            minDuration = minDuration-500;
+            maxDuration = maxDuration-500;
         }else{
             round = 2;
+            sequenceSize = 5;
         }
         console.log("round: ", round);
     }
@@ -86,11 +92,12 @@ $(document).ready(function(){
     document.getElementById('moveButton').onclick = () => {animate()};
 
     function animate() {
+        document.getElementById('moveButton').style.display="none";
         console.log('animate');
         var totalTime=0;
         emojiElements.forEach(id => {
             let element = document.getElementById(id);
-            var randDur = Math.floor(Math.random() * (maxDuration-minDuraction) + minDuraction);
+            var randDur = Math.floor(Math.random() * (maxDuration-minDuration) + minDuration);
             var randDelay = Math.random() * delay
             if(totalTime < (randDelay+randDur)){
                 totalTime = randDelay+randDur;
@@ -160,11 +167,35 @@ $(document).ready(function(){
         function displayResults(){
             const didWin = isGuessCorrect();
             console.log('countdown complete: ', didWin);
+            const message = createResult(didWin);
+            endGameCanvas.append(message);
             setTimeout(() => {
                 endGameCanvas.remove();
                 setRound(didWin);
                 startNewRound(round);
             }, 3000);   
+        }
+
+        function createResult(result) {
+            const className = 'class=resultMessage ';
+            let props = "";
+            let innerHtml = "";
+            if (result == true) {
+                const id = "id=winMessage";
+                props = className + id;
+                innerHtml = "<h1>You got it right! Moving to round " + (round) + "</h1>"
+                console.log("winner")
+            }
+            else {
+                const id = "id=loseMessage";
+                props = className + id;
+                innerHtml = "<h1>You were incorrect. Moving to round 1.</h1>"
+                console.log("loser")
+            
+            }
+
+            const html = "<div " + props + "> " + innerHtml + "</div>";
+            return $(html);
         }
 
         
