@@ -1,3 +1,9 @@
+const delay = 5000;
+const minDuraction = 5000;
+const maxDuration = 10000;
+const sequenceSize = 10;
+const endScreenTimer = 50;
+
 $(document).ready(function(){
     const gameCanvas = generateGameCanvas();
     const canvas = $(".Canvas");
@@ -13,7 +19,7 @@ $(document).ready(function(){
 
     function startNewRound (limit) {
         canvas.append(gameCanvas);
-        sequence = generateSequence(limit, 20);
+        sequence = generateSequence(limit, sequenceSize);
         console.log(sequence);
         for(let i = 0; i < sequence.length; i++){
            appendEmojiToCanvas(sequence[i], canvas);
@@ -84,8 +90,8 @@ $(document).ready(function(){
         var totalTime=0;
         emojiElements.forEach(id => {
             let element = document.getElementById(id);
-            var randDur = Math.floor(Math.random() * (5000-1000) + 1000)
-            var randDelay = Math.random() * 10000
+            var randDur = Math.floor(Math.random() * (maxDuration-minDuraction) + minDuraction);
+            var randDelay = Math.random() * delay
             if(totalTime < (randDelay+randDur)){
                 totalTime = randDelay+randDur;
             }
@@ -119,14 +125,13 @@ $(document).ready(function(){
     };
 
     function createEndCanvas(){
-        const time = 10;
         const question = genDic(sequence);
         console.log('question', question);
         const className = 'class=endgameContainer';
         const props = className;
         const html = "<div " + props + "> </div>";
         const endGameCanvas = $(html);
-        appendElements(endGameCanvas, [ createTimer(time), createCount(incrementCounter), createQuestion(question.QuestionEmoji), createCounter()]);
+        appendElements(endGameCanvas, [ createTimer(endScreenTimer), createCount(incrementCounter), createQuestion(question.QuestionEmoji), createCounter()]);
         countDown(() => {
             displayResults();
         });
@@ -143,7 +148,7 @@ $(document).ready(function(){
             return countDiv;
 
             function createCountButton(){
-                const className = 'class=countButton';
+                const className = 'class=countButton ';
                 const id = "id=countButton";
                 const props = className + id;
                 const innerHtml = "Count Emoji";
