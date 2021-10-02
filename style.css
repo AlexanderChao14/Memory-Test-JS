@@ -7,7 +7,7 @@
 
 .emoji {
   position: absolute;
-  left: 0px;
+  left: -100px;
 }
 
 .moveButton {
